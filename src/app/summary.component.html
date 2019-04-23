@@ -1,0 +1,99 @@
+<div class="loading" *ngIf="isLoading$ | async">
+    <img src="/assets/image/ajax-loader.gif" alt="No" width="45px"/><span style="padding-left: 7px;">Loading Please Wait...</span>
+</div>
+<div class="table-container">
+    {{htscode}}
+    <table id="packageTable" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Invoice Description</th>
+                <th>Watson Rater</th>
+                <th>Boss Rater</th>
+                <th class="table-header">HTS Code Override</th>
+                <th>Reason</th>
+                <th>Shipment Number</th>
+                <th>Row Id</th>
+                <th>Comments</th>
+                <th>Watson Accurate</th>
+                <th>Value</th>
+                <th>Watson Reasons</th>
+                <th>Historical</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+             <tr *ngFor='let data of finalsummaryData | paginate: { itemsPerPage: 100, currentPage: p}; let i = index;'>
+                <td (click)="loadresults(data.siv_lin_oid_nr)">{{data.description}}</td>
+                <td (click)="loadresults(data.siv_lin_oid_nr)" [ngStyle]="stylewatsonRater(data.watsonraterhtscode,data.prmrytarnr)">{{data.watsonraterhtscode}}</td>
+                <td (click)="loadresults(data.siv_lin_oid_nr)" [ngStyle]="styleBossRater(data.watsonraterhtscode,data.prmrytarnr)">{{data.prmrytarnr}}</td>
+                <td>
+                    <input type="text" class="table-textfield" #htscode="ngModel" [(ngModel)]="data.overridehtscode" name="htscode" [disabled]="((indexval == i) && (edit == true)) ? false : true">
+                </td>
+                <td>
+                    <!-- <input type="text" class="table-textfield" #reason="ngModel" [(ngModel)]="data.overridereasoncode" name="reason" [disabled]="((indexval == i) && (edit == true)) ? false : true"> -->
+                    <select #reason="ngModel" [(ngModel)]="data.overridereasoncode" style="margin-top: 5px;width: 100%">
+                            <option [ngValue]=""> </option>
+                            <option [ngValue]="">Rated per HTS provided by the customer (Rated per customer call)</option>
+                            <option [ngValue]="">Rated per HTS provided on Invoice, supported by description</option>
+                            <option [ngValue]="">Rated per Binding Ruling posted CROSS</option>
+                            <option [ngValue]="">Rated per the invoice specifications to the statistical level</option>
+                            <option [ngValue]="">Rated as per value criteria from the invoice</option>
+                            <option [ngValue]="">Rated as per weight criteria from the invoice</option>
+                            <option [ngValue]="">Rated as per size criteria from the invoice</option>
+                            <option [ngValue]="">Rated as per voltage/wattage/pressure/frequency specification on the invoice</option>
+                            <option [ngValue]="">Rated per specific regulatory compliance</option>
+                            <option [ngValue]="">Rated Per Customer SOP/Comments</option>
+                            <option [ngValue]="">Rated with Internet searches</option>
+                            <option [ngValue]="">Rated outside target chapters of 82-85</option>
+                            <option [ngValue]="">Rated per additional description listed on invoice</option>
+                    </select>
+                </td> 
+                <td (click)="loadresults(data.siv_lin_oid_nr)">{{data.invshipmentnumber}}</td>
+                <td (click)="loadresults(data.siv_lin_oid_nr)">{{data.seshrowid}}</td>
+                <td>
+                    <input type="text" class="table-textfield" #comments="ngModel" [(ngModel)]="data.overridereasoncomments" name="comments" [disabled]="((indexval == i) && (edit == true)) ? false : true">
+                </td>
+                <td><select #watsonAccurate="ngModel" [(ngModel)]="data.watsonaccurate" style="margin-top: 5px">
+                            <option [ngValue]=""> </option>
+                            <option [ngValue]="">Yes</option>
+                            <option [ngValue]="">No</option>
+                    </select>
+                </td>
+                <td (click)="loadresults(data.siv_lin_oid_nr)">{{data.invsiv_lin_tot_a}}</td>
+                <td (click)="loadresults(data.siv_lin_oid_nr)">{{data.watsonreasons}}</td>
+                <td><select #historical="ngModel" [(ngModel)]="data.historical" style="margin-top: 5px">
+                        <option [ngValue]=""> </option>
+                        <option [ngValue]="">Yes</option>
+                        <option [ngValue]="">No</option>
+                    </select></td>
+                <td>
+                    <div *ngIf="showedit == true || indexval != i">
+                        <button class="edit" (click)="enableediting(i)">
+                                <span class="fa fa-pencil-square-o" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                   <div *ngIf="showedit == false && indexval == i">
+                        <button class="edit" (click)="enableediting(i)">
+                            <span class="fa fa-times" aria-hidden="true"></span>
+                        </button>
+                   </div> 
+
+                </td>
+                <td>
+                    <button type="submit" class="save" (click)="saveChanges(data.siv_lin_oid_nr,data.description,data.watsonraterhtscode,data.prmrytarnr,htscode.value,reason.value,data.invshipmentnumber,data.seshrowid,comments.value,watsonAccurate.value,data.invsiv_lin_tot_a,data.watsonreasons,historical.value)" [disabled]="((indexval == i) && (edit == true)) ? false : true">
+                        <span class="fa fa-save" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <pagination-controls class="d-flex justify-content-end" (pageChange)="p = $event" 
+                             directionLinks="true">
+        </pagination-controls>
+    </div>
+</div>
+
+

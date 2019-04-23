@@ -1,0 +1,48 @@
+<div class="loading" *ngIf="isLoading$ | async">
+    <span style="padding-left: 7px;"></span>
+</div>
+
+<div class="loginpage" id="wrapper">
+        <form role="form" id="register_form"></form>	
+        <section id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                    </div>
+                    <div class="col-md-6">
+                        
+                        <form role="form" id="myForm" name="userForm" class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                            
+                            <div *ngIf="loginMessage == false" style="color: red">
+                                {{message}}
+                            </div>
+                            <div class="form-group username">
+                                <span>
+                                    <i class="login-user"></i>
+                                </span>
+                                <input type="email" name="email" id="email" [(ngModel)]="username" formControlName="username" class="form-control input-lg" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" placeholder="User Id" tabindex="4"/>
+                                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                    <div *ngIf="f.username.errors.required">User Id is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group pwd">
+                                <span>
+                                    <i class="login-user"></i>
+                                </span>
+                                <input type="password" name="password" [(ngModel)]="password" formControlName="password" class="form-control input-lg" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password" placeholder="Password">
+                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">Password is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <span class="login-error" id="err"></span>
+                                <div class="col-md-12"><input type="submit" value="LOGIN" class="btn btn-primary btn-block btn-lg btn-login" tabindex="7" (click)="authenticateUser(username,password)"></div>						
+                                <!-- <div class="col-md-12 align-right"><a href="#" id="register" class="trouble-login"> Having trouble logging in? Please Resgister </a> </div>	 -->
+                            </div>
+                        </form>					
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>

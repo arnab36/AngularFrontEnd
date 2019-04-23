@@ -1,0 +1,85 @@
+
+<div class="loading" *ngIf="isLoading$ | async">
+    <img src="/assets/image/ajax-loader.gif" alt="No" width="45px"/><span style="padding-left: 7px;">Loading Please Wait...</span>
+</div>
+
+<div class="file-upload-container">
+    <div class="col-md-12 col-lg-12 file-headers">
+        File Upload
+    </div>
+
+    <!-- <div class="fileUploading" *ngIf="isFileUploading$ | async">
+        <img src="/assets/image/file-uploading.gif" alt="No" width="45px"/><span style="padding-left: 7px;">File Uplading...</span>
+    </div> -->
+
+    <div class="file-upload">
+        <div class="file-upload-success" *ngIf='fileUpload == "success"'>
+            {{fileUploadSuccessMessage}}
+        </div>
+
+        <div class="file-upload-failed" *ngIf='fileUpload == "Failed"'>
+            {{fileUploadFailedMessage}}
+        </div>
+
+        <ng-container>
+           <!--  <div class="row">
+                <div class="col-md-8">
+                    Browse Files
+                </div>
+            </div> -->
+            <div class="row">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-md-4  offset-md-1">
+                    <input type="file" id="file" multiple (change)="getFileDetails($event)">
+                </div>
+
+                <!-- <div class="col-md-4">
+                    <input type="file" id="file" multiple (change)="getFileDetails($event)">
+                </div> -->
+
+                <div class="col-md-2">                
+                    <button class="upload-button" (click)="uploadFiles()" [disabled]="(fileselected == true) ? false : true">Upload and Predict</button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="file-upload-table-container">
+        <div class="col-md-12 col-lg-12 file-history-headers">
+            File History
+        </div>
+        <table id="packageTable" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th style="padding-left: 0px"># Of Rows</th>
+                    <th>Uploaded Date</th>
+                    <th>Status</th>
+                    <th>Username</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let data of fileHistoryData | paginate: { itemsPerPage: 10, currentPage: p}'>
+                    <td (click)="fetchFileData(data.seshid)" >{{data.filename}}</td>
+                    <td (click)="fetchFileData(data.seshid)" >{{data.numrows}}</td>
+                    <td (click)="fetchFileData(data.seshid)" >{{data.uploaddate}}</td>
+                    <td (click)="fetchFileData(data.seshid)" >{{data.status}}</td>
+                    <td (click)="fetchFileData(data.seshid)" >{{data.username}}</td>
+                    <td>
+                        <a href="javascript:void(0)" class="download-link" (click)="dowloadFile(data.seshid,data.filename)">Export</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <pagination-controls class="d-flex justify-content-end" (pageChange)="p = $event" 
+                                 directionLinks="true">
+            </pagination-controls>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav">
+      <li class="nav-item first-ele">
+        <img class="header-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/United_Parcel_Service_logo_2014.svg/1200px-United_Parcel_Service_logo_2014.svg.png">
+      </li>
+      <li class="nav-item header-font">
+        UPS Garage Showcase
+      </li>
+    </ul>
+
+    <ul class="nav logout-container">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle header-font username" data-toggle="dropdown" href="#">{{userName}}</a>
+        <div class="dropdown-menu logout-dropdown" style="top: 75%;padding: 0;color: #351C15;border: 1px solid #351C15(0,0,0,.15);">
+          <a routerLink="/login" routerLinkActive="active" class="dropdown-item" href="#">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 8%">
+  <div class="row">
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      <div class="left-nav">
+        <ul>
+          <li>
+            <a routerLink="/success/summary/fileHistory" routerLinkActive="active" class="summary" [ngStyle]="((location.path() === '/success/summary/fileHistory') || (location.path() === '/success/summary/fileDetails') || (location.path() === '/success/summary/research')) ? { 'backgroundColor':'#FFB500', 'color' : '#351C15' } : {'backgroundColor':''}">
+              <i class="fa fa-line-chart fa-3x"></i>
+              <div>Summary</div></a>
+          </li>
+         <!--  <li>
+            <a routerLink="/success/discovery" routerLinkActive="active" class="discovery" [ngStyle]="location.path() === '/success/discovery' ? { 'backgroundColor':'#FFB500', 'color' : '#351C15' } : {'backgroundColor':''}">
+              <i class="fa fa-search fa-3x"></i>
+              <div>HTS Code Delivery</div></a>
+          </li>
+          <li>
+            <a routerLink="/success/security" routerLinkActive="active" class="security" [ngStyle]="location.path() === '/success/security' ? { 'backgroundColor':'#FFB500', 'color' : '#351C15' } : {'backgroundColor':''}">
+              <i class="fa fa-camera fa-3x"></i>
+              <div>Watson Security Imaging</div></a>
+          </li>
+          <li>
+            <a routerLink="/success/blockchain" routerLinkActive="active" class="blockchain" [ngStyle]="location.path() === '/success/blockchain' ? { 'backgroundColor':'#FFB500', 'color' : '#351C15' } : {'backgroundColor':''}">
+              <i class="fa fa-link fa-3x"></i>
+              <div>BlockChain Record Book</div></a>
+          </li>
+          <li>
+            <a routerLink="/success/moreinformation" routerLinkActive="active" class="moreinfo" [ngStyle]="location.path() === '/success/moreinformation' ? { 'backgroundColor':'#FFB500', 'color' : '#351C15' } : {'backgroundColor':''}">
+              <i class="fa fa-plus fa-3x"></i>
+              <div>Coming Soon</div></a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+      <div class="class-sm-12 class-md-12 col-lg-12 bread-com">
+        <div class="row">
+          <!-- <div class="class-sm-1 class-md-1 col-lg-1" style="margin-right: -2%" *ngIf="(location.path() === '/success/summary/fileHistory') || (location.path() === '/success/summary/fileDetails') || (location.path() === '/success/summary/research')">
+            Summary 
+          </div> -->
+          <div class="class-sm-1 class-md-2 col-lg-2 bread-com-links" *ngIf="(location.path() === '/success/summary/fileHistory') || (location.path() === '/success/summary/fileDetails') || (location.path() === '/success/summary/research')">
+            <a routerLink="/success/summary/fileHistory" routerLinkActive="active">File History</a>
+          </div>
+          <div class="class-sm-1 class-md-2 col-lg-2 bread-com-links" *ngIf="(location.path() === '/success/summary/fileDetails') || (location.path() === '/success/summary/research')">
+              > <a routerLink="/success/summary/fileDetails" routerLinkActive="active">File Details</a>
+          </div>
+          <div class="class-sm-1 class-md-2 col-lg-2 bread-com-links" *ngIf="(location.path() === '/success/summary/research')">
+              > <a routerLink="/success/summary/research" routerLinkActive="active">Research</a>
+          </div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>  
+    </div>
+  </div>
+</div>

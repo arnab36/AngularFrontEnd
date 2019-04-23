@@ -1,0 +1,18 @@
+{
+  "invoicesummaryresponselist": [
+    {
+      "seshid": "ABC1234",
+      "htscode": "HTS1234",
+      "confidence": 0.5,
+      "description": "Description ",
+      "siv_lin_oid_nr": "0998-erft"
+    },
+    {
+      "seshid": "ABC1094",
+      "htscode": "HTS1278",
+      "confidence": 0.5,
+      "description": "Description ",
+      "siv_lin_oid_nr": "0698-ertt"
+    }
+  ]
+} 

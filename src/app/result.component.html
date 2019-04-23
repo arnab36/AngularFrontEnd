@@ -1,0 +1,251 @@
+<div class="loading" *ngIf="isLoading$ | async">
+    <img src="/assets/image/ajax-loader.gif" alt="No" width="45px"/><span style="padding-left: 7px;">Loading Please Wait...</span>
+</div>
+
+<div class="col-sm-2 offset-sm-10 col-md-2 offset-md-10 col-lg-2 offset-lg-10" style="margin-top: -3%" *ngIf="wordcloudmap.length > 0"> 
+    <button class="worldcloud-button" data-toggle="modal" data-target="#myModal">Worldcloud</button>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <!-- <h4 class="modal-title">Modal Heading</h4> -->
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body  style="width: 100%;  box-shadow: 3px 5px 10px 0 rgba(0,0,0,0.4) !important; height: 250px;overflow: scroll;"-->
+       <div class="modal-body">
+            <div class="row model-data-container1">
+                <div class="col-md-2">
+                        <div ngbDropdown class="d-inline-block">
+                                <button class="btn btn-outline-primary dropdown-button" id="dropdownBasic1" ngbDropdownToggle>{{wordToDelete}}
+                                    <span class="caret"></span>
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class= "dropdown-menu show dropdownmenu-list" style="width: 100%;  box-shadow: 3px 5px 10px 0 rgba(0,0,0,0.4) !important; height: 250px;overflow: scroll;">
+                                  <div *ngFor="let data of wordcloudmap"> 
+                                        <button class="dropdown-item dorpbutton" (click)="wordToBeDeleted(data.text)">{{data.text}}</button>
+                                  </div>
+                                </div>
+                        </div>
+                </div>
+
+                <div class="col-md-3 offset-md-4">
+                    <button class="delete-button" (click)="deleteWord()">Delete</button>
+                </div>
+
+                <div class="col-md-3">
+                    <button class="add-text" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="glyphicon glyphicon-plus"></span>Add Text</button> 
+                </div>
+            </div>
+
+            <div class="row model-data-container2"> 
+                <div class="col-md-12 collapse" id="collapseExample">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input id="msg" type="text" class="text-field" [(ngModel)]="text" placeholder="Enter Text" name="msg"/>
+                        </div>
+                        <div class="col-md-5">
+                            <input id="msg" type="text" class="text-field" [(ngModel)]="score" placeholder="Enter Score" name="msg"/>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="add-text" (click)="addText(text,score)">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row model-data-container2">
+                <div id="wordCloudMap" class="col-md-12" *ngIf="wordData.length > 0">
+                    <div AgWordCloud [wordData]="wordData" [options]="options"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div> -->
+        
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="row row-header header-bar-style" style="margin-top: 5%;border-top:1px solid;">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-bar first-column">
+                <div>Shipper</div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-bar">
+                <div>Forensics</div>
+            </div>
+        </div>
+        <div class="row row-header results-container">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 data-box first-column">
+                <div class="col-md-12 collapse" id="LinksCollapse">
+                    <div class="row expanded-area">
+                        <div class="col-md-7">
+                            <input id="msg" type="text" class="text-field" [(ngModel)]="shipperlink" placeholder="Enter Shipper Link" name="msg"/>
+                        </div>
+                        <div class="col-md-3 offset-md-2">
+                            <button class="add-text" (click)="addLink(shipperlink)" style="margin-left: 30%">Add</button>
+                        </div>
+                    </div> 
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="row" style="margin-bottom: 1%">
+                        <div class="col-md-1 offset-md-10">
+                            <button class="delete-content" (click)="deleteLinks()">
+                                <span class="fa fa-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+
+                        <div class="col-md-1">
+                            <button class="add-content" data-toggle="collapse" href="#LinksCollapse" role="button" aria-expanded="false" aria-controls="LinksCollapse" (click)="addLinkLogo()">
+                                <span class={{addshipperlogo}}></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-height" style="margin-left: -6%;">
+                    <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true" style="padding: 15px 0px 5px 0px">
+                        <div *ngFor="let data of shipperList">
+                            <ul class="shipperLinks">
+                                <li class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="checkboxes" name="image" (click)="selectLink(data)"/>
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                        <a class="shipperList-url" href="javascript:void(0)" (click)="OpenLink(data)">{{data}}</a>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 data-box">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="headers">Description :</span>
+                        </div>
+                        <div class="col-md-1 offset-md-7">
+                            <button class="add-content" data-toggle="collapse" href="#descriptionCollapse" role="button" aria-expanded="false" aria-controls="descriptionCollapse" (click)="editContent()">
+                                <span class={{editlogo}}></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row collapse" id="descriptionCollapse" style="margin-top: 1%">
+                    <div class="col-md-12">
+                        <textarea class="form-control form-rounded text-area" rows="8" [(ngModel)]="description"></textarea>
+                    </div>
+
+                    <div class="col-md-3 offset-md-9" style="margin-top: 2%">
+                        <button class="add-text" (click)="editDescription(description)">Save</button>  
+                    </div>
+                </div>
+
+                <div class="scroll-height" *ngIf="editText == false">
+                    <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true">
+                        <div class="description-container">
+                            {{description}}
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+        </div>
+         <div class="row row-header header-bar-style">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-bar first-column">
+                <div>Watson Results</div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 header-bar" style="padding-left:125px">
+                <div>Images</div>
+            </div>
+        </div> 
+        <div class="row row-header results-container">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 data-box first-column">
+                <span class="headers">Visual Recognization : </span><i style="font-size: 12px;font-weight: 500;">(click on Image)</i>
+                <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true" style="padding-bottom:15px">
+                    <ul *ngFor="let data of WatsonResults">
+                        <li  *ngIf="data.imageId === imageID">{{data.classes}}</li>
+                    </ul> 
+                </perfect-scrollbar>
+            </div> <!-- imageList {{data.image}} -->
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 data-box">
+                <div class="col-md-12 collapse" id="Imagecollapse">
+                    <div class="row expanded-area">
+                        <div class="col-md-7">
+                            <input id="msg" type="text" class="text-field" [(ngModel)]="imagelink" placeholder="Enter Image Link" name="msg"/>
+                        </div>
+                        <div class="col-md-3 offset-md-2">
+                            <button class="add-text" (click)="addImage(imagelink)" style="margin-left: 30%">Add</button>
+                        </div>
+                    </div> 
+                </div> 
+
+                <div class="col-md-12">
+                    <div class="row" style="margin-bottom: 1%">
+                        <div class="col-md-1 offset-md-10">
+                            <button class="delete-content" (click)="deleteImage()">
+                                <span class="fa fa-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+
+                        <div class="col-md-1">
+                            <button class="add-content" data-toggle="collapse" data-target="#Imagecollapse" aria-expanded="false" aria-controls="Imagecollapse" (click)="addImageLogo()">
+                                <span class={{addImagelogo}}></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-height">
+                    <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="false" style="padding: 15px 0px 5px 0px">
+                        <div class="row" *ngIf="imageList.length > 0">
+                            <ul class="image-container" *ngFor="let data of imageList; let i = index;">
+                                <li *ngIf="i%2 == 0">
+                                    <a href="javascript:void(0)" (click)="fetchVisualDetails(data.imageId)"><img src={{data.image}} alt="not found" width="100px" height="100px"/></a>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="checkboxes" name="image" (click)="selectImage(data.image)"/>
+                                            <span class="cr headers"><i class="cr-icon fa fa-check"></i></span>
+                                            <span class="headers">Image {{1 + i}}</span>
+                                        </label>
+                                    </div> 
+                                </li>
+                                <li *ngIf="i%2 != 0"> 
+                                    <a href="javascript:void(0)" (click)="fetchVisualDetails(data.imageId)"><img src={{data.image}} alt="not found" width="100px" height="100px"/></a>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="checkboxes" name="image" (click)="selectImage(data.image)"/>
+                                            <span class="cr headers"><i class="cr-icon fa fa-check"></i></span>
+                                            <span class="headers">Image {{1 + i}}</span>
+                                        </label>
+                                    </div> 
+                                </li> 
+                            </ul>
+                        </div>
+                    </perfect-scrollbar>
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="margin-top: 3% !important">
+        <div class="right-side-content" *ngIf="urlClicked == false">
+            <i>Click on Shipper Url</i>
+        </div>
+        <div *ngIf="urlClicked == true">
+            <iframe id="myFrame" width="100%" height="500px" [src]="urlLink | safe"></iframe>
+        </div>
+    </div>
+</div>
